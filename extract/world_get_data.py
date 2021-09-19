@@ -56,7 +56,7 @@ def energy_trends():
     for x in range(len(df["iso_code"])):
         if (df["year"][x] >= 1990):
             for i in sources:
-                temp_dict[i] = str(df[i+"_consumption"][x])
+                temp_dict[i] = str((df[i+"_consumption"][x]))
             if df["iso_code"][x] not in dict:
                 dict[df["iso_code"][x]] = {str(df["year"][x]): json.dumps(temp_dict)}
             else:
@@ -69,7 +69,7 @@ def energy_trends_share():
     for x in range(len(df["iso_code"])):
         if (df["year"][x] >= 1990):
             for i in sources:
-                temp_dict[i] = str(df[i+"_share_energy"][x])
+                temp_dict[i] = str(int(df[i+"_share_energy"][x]))
             if df["iso_code"][x] not in dict:
                 dict[df["iso_code"][x]] = {str(df["year"][x]): json.dumps(temp_dict)}
             else:

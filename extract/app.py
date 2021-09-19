@@ -5,13 +5,14 @@ import json
 from world_get_data import energy_per_capita, most_common_energy, renewable_energy_share, energy_trends, energy_trends_share
 from us_get_data import state_share_energy, co2_by_source, emissions_by_state, total_energy_calc
 app = Flask(__name__)
+CORS(app)
 dict1 = {"USA": {"Number in Household": 3, "House Size": 1000, "AC Use": 10, "Heating Use": 10, "Electric Water Heater": 5, 
 "Fridges and Freezers": 0, "Large Kitchen Appliances": 3, "Small Kitchen Appliances": 3, "Washing Machine Loads": 3, 
 "Dryer Loads": 5, "Dishwasher": 2, "Bathroom Electronics": 2, "Laptops and Desktops": 10, "Television": 2, "Smart-home": 3,
 "Other Electronics": 10}}
 x = json.dumps(dict1, indent=3)
 print(x)
-
+states = {'Alaska': 'AK', 'Alabama': 'AL', 'Arkansas': 'AR', 'American Samoa': 'AS', 'Arizona': 'AZ', 'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'District of Columbia': 'DC', 'Delaware': 'DE', 'Florida': 'FL', 'Georgia': 'GA', 'Guam': 'GU', 'Hawaii': 'HI', 'Iowa': 'IA', 'Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Massachusetts': 'MA', 'Maryland': 'MD', 'Maine': 'ME', 'Michigan': 'MI', 'Minnesota': 'MN', 'Missouri': 'MO', 'Northern Mariana Islands': 'MP', 'Mississippi': 'MS', 'Montana': 'MT', 'National': 'NA', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Nebraska': 'NE', 'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'Nevada': 'NV', 'New York': 'NY', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR', 'Pennsylvania': 'PA', 'Puerto Rico': 'PR', 'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT', 'Virginia': 'VA', 'Virgin Islands': 'VI', 'Vermont': 'VT', 'Washington': 'WA', 'Wisconsin': 'WI', 'West Virginia': 'WV', 'Wyoming': 'WY'}
 @app.route("/survey", methods=["POST"])
 def calc_score():
     score = 0
@@ -21,28 +22,28 @@ def calc_score():
         country = i
     household = int(dict[country]["Number in Household"])
 
-    size_dict = {"0":2000,"1":1000,"2":1250,"3":1750,"4":2250,"5":2750,"6":3000}
+    size_dict = {0:2000,1:1000,2:1250,3:1750,4:2250,5:2750,6:3000}
     size = size_dict[dict[country]["House Size"]]
 
     ac_dict = {"0":7,"1":0,"2":2.5,"3":6.5,"4":10.5,"5":14.5,"6":18.5,"7":22.5}
-    score + = 3*ac_dict[dict[country]["AC Use"])]*size
+    score += 3*ac_dict[dict[country]["AC Use"]]*size
 
     heat_dict = {"0":7,"1":0,"2":2.5,"3":6.5,"4":10.5,"5":14.5,"6":18.5,"7":22.5}
-    score + = 10*heat_dict[dict[country]["Heating Use"]]*size
+    score += 10*heat_dict[dict[country]["Heating Use"]]*size
 
     score += 700*int(dict[country]["Fridges and Freezers"])
 
     score += 1500*int(dict[country]["Large Kitchen Appliances"])
-    score + =800*int(dict[country]["Small Kitchen Appliances"])
+    score +=800*int(dict[country]["Small Kitchen Appliances"])
     washing_dict = {"0":3,"1":0,"2":1.5,"3":3.5,"4":5.5,"5":7}
-    score += 1200/7*washing_dict[dict[country]["Washing Machine Loads"])]
+    score += 1200/7*washing_dict[dict[country]["Washing Machine Loads"]]
     score += 5400/7*washing_dict[dict[country]["Dryer Loads"]]
-    score += 1500*washing_dict[dict[country]["Dishwasher"]
+    score += 1500*washing_dict[dict[country]["Dishwasher"]]
     score += 1300*washing_dict[dict[country]["Bathroom Electronics"]]
     score += 75*washing_dict[dict[country]["Laptops and Desktops"]]
-    score += 75*washing_dict[dict[country]["Television"]
-    score += 12*washing_dict[dict[country]["Smart-home"]
-    score += 75*washing_dict[dict[country]["Other Electronics"]
+    score += 75*washing_dict[dict[country]["Television"]]
+    score += 12*washing_dict[dict[country]["Smart-home"]]
+    score += 75*washing_dict[dict[country]["Other Electronics"]]
 
     return jsonify(str(365*score))
 
@@ -130,7 +131,7 @@ def state_share():
     dict = request.get_json(force = True)
     for i in range(len(dict.keys())):
         if i == 0:
-            state=  dict["state"]
+            state=  states[dict["state"]]
         else: 
             year = dict["year"]
     if year != -1:
@@ -146,7 +147,7 @@ def state_emissions():
     dict = request.get_json(force = True)
     for i in range(len(dict.keys())):
         if i == 0:
-            state=  dict["state"]
+            state=  states[dict["state"]]
         else: 
             year = dict["year"]
     if year != -1:
@@ -165,7 +166,7 @@ def state_emissions_by_source():
     dict = request.get_json(force = True)
     for i in range(len(dict.keys())):
         if i == 0:
-            state=  dict["state"]
+            state=  states[dict["state"]]
         else: 
             year = dict["year"]
     if year != -1:

@@ -4,10 +4,10 @@ import json
 
 eia_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/annual_generation_state-3.xls')
 eia_emissions_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/emission_annual-3.xls')
-price_path = eia_emissions_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/avgprice_annual.xlsx')
+price_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/avgprice_annual.xlsx')
 df_eia = pd.read_excel(eia_path)
 df_emissions = pd.read_excel(eia_emissions_path)
-df_cost = pd.read_excel(price_path)
+df_cost = pd.read_excel(price_path, engine = "openpyxl")
 
 def get_total_energy(list_of_energy):
     total_energy = 0
@@ -138,6 +138,7 @@ def co2_by_source():
     coal = 0
     gas = 0
     petrol = 0
+    print(df_emissions.columns)
     for x in range(len(df_emissions["Year"])):
         if (df_emissions["Year"][x] >= 1990):
             if df_emissions["State"][x] not in dict:
