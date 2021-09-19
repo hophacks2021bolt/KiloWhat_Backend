@@ -94,7 +94,7 @@ def state_share_energy():
                 temp_dict["Solar Thermal and Photovoltaic"] = solar / total_energy
                 temp_dict["Wind"] = wind / total_energy
                 dict[df_eia["STATE"][x]] [str(df_eia["YEAR"][x])] = json.dumps(temp_dict)
-    return json.dumps(dict, indent=3)
+    return dict
 
 def total_energy_calc():
     dict = {}
@@ -110,17 +110,15 @@ def total_energy_calc():
                 if df_eia["ENERGY SOURCE"][x] == "Total":
                     energy = energy + df_eia["GENERATION (Megawatthours)"][x]
                 dict[df_eia["STATE"][x]] [str(df_eia["YEAR"][x])] = str(energy)
-    return json.dumps(dict, indent=3) 
+    return dict
 
 def emissions_by_state():
     dict = {}
     temp_dict = {}
     co2 = 0
-
     for x in range(len(df_emissions["Year"])):
         if (df_emissions["Year"][x] >= 1990):
             if df_emissions["State"][x] not in dict:
-                energy = 0
                 co2 = 0
                 if df_emissions["Energy Source"][x] == "All Sources":
                     co2 = co2 + df_emissions["CO2\n"][x]    
@@ -129,7 +127,7 @@ def emissions_by_state():
                 if df_emissions["Energy Source"][x] == "All Sources":
                     co2 = co2 + df_emissions["CO2\n"][x]
                 dict[df_emissions["State"][x]] [str(df_emissions["Year"][x])] = str(co2)
-    return json.dumps(dict, indent=3)
+    return dict
 
 
 def co2_by_source():
@@ -168,4 +166,4 @@ def co2_by_source():
                 temp_dict["Natural Gas"] = str(gas)
                 temp_dict["Coal"] = str(coal)
                 dict[df_emissions["State"][x]] [str(df_emissions["Year"][x])] = json.dumps(temp_dict)
-    return json.dumps(dict, indent=3)
+    return dict

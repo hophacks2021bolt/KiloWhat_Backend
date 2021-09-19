@@ -20,7 +20,7 @@ def energy_per_capita():
                 dict[df["country"][x]] = {str(df["year"][x]): {"avgEnergyUsage": str(df["energy_per_capita"][x])}}
             else:
                 dict[df["country"][x]] [str(df["year"][x])] = {"avgEnergyUsage": str(df["energy_per_capita"][x])}
-    return json.dumps(dict, indent=3)
+    return dict
 
 def renewable_energy_share():
     dict = {}
@@ -30,7 +30,7 @@ def renewable_energy_share():
                 dict[df["country"][x]] = {str(df["year"][x]): {"renewableEnergyShare": str(df["renewables_share_energy"][x])}}
             else:
                 dict[df["country"][x]] [str(df["year"][x])] = {"renewableEnergyShare": str(df["renewables_share_energy"][x])}
-    return json.dumps(dict, indent = 3)
+    return dict
 
 #Most common energy for each country, each year
 def most_common_energy():
@@ -48,7 +48,7 @@ def most_common_energy():
                 dict[df["country"][x]] = {str(df["year"][x]): {"highestShare": highest_share}}
             else:
                 dict[df["country"][x]] [str(df["year"][x])] = {"highestShare": highest_share}
-    return json.dumps(dict, indent = 3)
+    return dict
 
 def energy_trends():
     dict = {}
@@ -57,12 +57,11 @@ def energy_trends():
         if (df["year"][x] >= 1990):
             for i in sources:
                 temp_dict[i] = str(df[i+"_consumption"][x])
-                #print(str(df[i+"_consumption"][x]))
             if df["country"][x] not in dict:
                 dict[df["country"][x]] = {str(df["year"][x]): json.dumps(temp_dict)}
             else:
                 dict[df["country"][x]] [str(df["year"][x])] = json.dumps(temp_dict)
-    return json.dumps(dict, indent=3)
+    return dict
 
 def energy_trends_share():
     dict = {}
@@ -75,12 +74,4 @@ def energy_trends_share():
                 dict[df["country"][x]] = {str(df["year"][x]): json.dumps(temp_dict)}
             else:
                 dict[df["country"][x]] [str(df["year"][x])] = json.dumps(temp_dict)
-    return json.dumps(dict, indent=3)
-    
-def get_total_energy(list_of_energy):
-    total_energy = 0
-    share_energy = []
-    inc = 0
-    for i in list_of_energy:
-        total_energy = total_energy + i
-    return total_energy
+    return dict
