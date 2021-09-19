@@ -19,26 +19,32 @@ def calc_score():
     dict = request.get_json(force = True)
     for i in dict.keys():
         country = i
-    household = dict[country]["Number in Household"]
-    size = dict[country]["House Size"]
-    ac = dict[country]["AC Use"]
-    heating = dict[country]["Heating Use"]
-    water_heater = dict[country]["Electric Water Heater"]
-    fridges = dict[country]["Fridges and Freezers"]
-    large_kitchen = dict[country]["Large Kitchen Appliances"]
-    small_kitchen = dict[country]["Small Kitchen Appliances"]
-    washing_machine = dict[country]["Washing Machine Loads"]
-    dryer = dict[country]["Dryer Loads"]
-    dishwasher = dict[country]["Dishwasher"]
-    bathroom_electronics = dict[country]["Bathroom Electronics"]
-    laptops = dict[country]["Laptops and Desktops"]
-    tv = dict[country]["Television"]
-    smart_home = dict[country]["Smart-home"]
-    other_electronics = dict[country]["Other Electronics"]
+    household = int(dict[country]["Number in Household"])
 
-    return jsonify(str(365*(3*ac*size + 10*heating*size + 700*fridges + 1500*large_kitchen + 800*small_kitchen
-    + (1200*washing_machine/7) + (5400*dryer/7) + 1500*dishwasher + 1300*bathroom_electronics + 75*laptops
-    + 75*tv + 15*smart_home + 75*other_electronics)))
+    size_dict = {"0":2000,"1":1000,"2":1250,"3":1750,"4":2250,"5":2750,"6":3000}
+    size = size_dict[dict[country]["House Size"]]
+
+    ac_dict = {"0":7,"1":0,"2":2.5,"3":6.5,"4":10.5,"5":14.5,"6":18.5,"7":22.5}
+    score + = 3*ac_dict[dict[country]["AC Use"])]*size
+
+    heat_dict = {"0":7,"1":0,"2":2.5,"3":6.5,"4":10.5,"5":14.5,"6":18.5,"7":22.5}
+    score + = 10*heat_dict[dict[country]["Heating Use"]]*size
+
+    score += 700*int(dict[country]["Fridges and Freezers"])
+
+    score += 1500*int(dict[country]["Large Kitchen Appliances"])
+    score + =800*int(dict[country]["Small Kitchen Appliances"])
+    washing_dict = {"0":3,"1":0,"2":1.5,"3":3.5,"4":5.5,"5":7}
+    score += 1200/7*washing_dict[dict[country]["Washing Machine Loads"])]
+    score += 5400/7*washing_dict[dict[country]["Dryer Loads"]]
+    score += 1500*washing_dict[dict[country]["Dishwasher"]
+    score += 1300*washing_dict[dict[country]["Bathroom Electronics"]]
+    score += 75*washing_dict[dict[country]["Laptops and Desktops"]]
+    score += 75*washing_dict[dict[country]["Television"]
+    score += 12*washing_dict[dict[country]["Smart-home"]
+    score += 75*washing_dict[dict[country]["Other Electronics"]
+
+    return jsonify(str(365*score))
 
 @app.route("/energypercapita", methods=["POST"])
 def energy_per_cap():
