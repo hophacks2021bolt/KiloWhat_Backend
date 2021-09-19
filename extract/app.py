@@ -36,9 +36,9 @@ def calc_score():
     smart_home = dict[country]["Smart-home"]
     other_electronics = dict[country]["Other Electronics"]
 
-    return jsonify(str(3*ac*size + 10*heating*size + 700*fridges + 1500*large_kitchen + 800*small_kitchen
-    + 1200*washing_machine + 5400*dryer + 1500*dishwasher + 1300*bathroom_electronics + 75*laptops
-    + 75*tv + 15*smart_home + 75*other_electronics))
+    return jsonify(str(365*(3*ac*size + 10*heating*size + 700*fridges + 1500*large_kitchen + 800*small_kitchen
+    + (1200*washing_machine/7) + (5400*dryer/7) + 1500*dishwasher + 1300*bathroom_electronics + 75*laptops
+    + 75*tv + 15*smart_home + 75*other_electronics)))
 
 @app.route("/energypercapita", methods=["POST"])
 def energy_per_cap():

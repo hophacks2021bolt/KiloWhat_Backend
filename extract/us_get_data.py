@@ -4,8 +4,10 @@ import json
 
 eia_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/annual_generation_state-3.xls')
 eia_emissions_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/emission_annual-3.xls')
+price_path = eia_emissions_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/avgprice_annual.xlsx')
 df_eia = pd.read_excel(eia_path)
 df_emissions = pd.read_excel(eia_emissions_path)
+df_cost = pd.read_excel(price_path)
 
 def get_total_energy(list_of_energy):
     total_energy = 0
